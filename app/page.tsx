@@ -204,7 +204,7 @@ export default function Web() {
         <h1>Welcome to BuyNClose</h1>
         <p>Your trusted partner in real estate. Explore a wide range of properties across the United States and discover the benefits of buying with BuyNClose.</p>
         <button className="button-primary mr-3" onClick={handleGetStarted}>Get Started</button>
-        <Button href="https://buynclose.com/properties" className="button-secondary">Browse Listings</Button>
+        <Button href="https://buynclose.vercel.app/properties" className="button-secondary">Browse Listings</Button>
       </section>
       <section>
         <div className="grid-container">
