@@ -1,63 +1,62 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-interface Submission {
-  user_id: string;
+type Submission = {
   name: string;
   email: string;
   phone: string;
-  address: string;
+  message: string;
   createdAt: string;
-}
+};
 
 export default function LeadsPage() {
   const [data, setData] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://4xjr2vrsquy7rfhm4cuaioshf40mynai.lambda-url.eu-north-1.on.aws/", {
-      method: "GET",
+    fetch('https://oowa6i2ukx7nimeaqb6yjsir7y0spnmj.lambda-url.eu-north-1.on.aws/?TableName=tbl_data', {
+      method: 'GET',
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data as Submission[]);
+      .then((res) => res.json()) // ✅ Convert response to JSON
+      .then((json) => {
+        const typedData = json as { Items: Submission[] }; // ✅ Explicitly cast it
+        if (typedData.Items) {
+          setData(typedData.Items);
+        }
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Error fetching data:", err);
+        console.error('Error fetching data:', err);
         setLoading(false);
       });
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">Submitted Leads</h1>
-
+    <div className="p-6">
+      <h1 className="text-2xl font-semibold mb-4">Leads</h1>
       {loading ? (
-        <div className="text-center text-lg">Loading...</div>
-      ) : data.length === 0 ? (
-        <div className="text-center text-lg text-gray-500">No leads found.</div>
+        <p>Loading...</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white shadow-md rounded-md overflow-hidden">
-            <thead className="bg-blue-600 text-white">
-              <tr>
-                <th className="text-left py-3 px-4">Name</th>
-                <th className="text-left py-3 px-4">Email</th>
-                <th className="text-left py-3 px-4">Phone</th>
-                <th className="text-left py-3 px-4">Address</th>
-                <th className="text-left py-3 px-4">Submitted At</th>
+          <table className="min-w-full border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border border-gray-300 px-4 py-2">Name</th>
+                <th className="border border-gray-300 px-4 py-2">Email</th>
+                <th className="border border-gray-300 px-4 py-2">Phone</th>
+                <th className="border border-gray-300 px-4 py-2">Message</th>
+                <th className="border border-gray-300 px-4 py-2">Date</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((entry) => (
-                <tr key={entry.user_id} className="border-b hover:bg-gray-50">
-                  <td className="py-3 px-4">{entry.name}</td>
-                  <td className="py-3 px-4">{entry.email}</td>
-                  <td className="py-3 px-4">{entry.phone}</td>
-                  <td className="py-3 px-4">{entry.address}</td>
-                  <td className="py-3 px-4">{new Date(entry.createdAt).toLocaleString()}</td>
+              {data.map((lead, index) => (
+                <tr key={index}>
+                  <td className="border border-gray-300 px-4 py-2">{lead.name}</td>
+                  <td className="border border-gray-300 px-4 py-2">{lead.email}</td>
+                  <td className="border border-gray-300 px-4 py-2">{lead.phone}</td>
+                  <td className="border border-gray-300 px-4 py-2">{lead.message}</td>
+                  <td className="border border-gray-300 px-4 py-2">{new Date(lead.createdAt).toLocaleString()}</td>
                 </tr>
               ))}
             </tbody>
