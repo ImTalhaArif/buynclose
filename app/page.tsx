@@ -1,5 +1,3 @@
-// Updated Next.js Landing Page mimicking the look and structure of https://offer.amphomebuyer.com
-
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -13,17 +11,48 @@ export default function LandingPage() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const router = useRouter();
 
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setSubmitted(true);
-    // Add API submission logic here
+    setLoading(true);
+    setError("");
+
+    const lambdaURL =
+      "https://4xjr2vrsquy7rfhm4cuaioshf40mynai.lambda-url.eu-north-1.on.aws/";
+
+    const payload = {
+      user_id: `user_${Date.now()}`, // Unique user ID
+      ...formData,
+    };
+
+    try {
+      const res = await fetch(lambdaURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to submit the form. Please try again.");
+      }
+
+      setSubmitted(true);
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -90,10 +119,16 @@ export default function LandingPage() {
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-md transition"
+              disabled={loading}
+              className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-md transition ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
-              Get My Cash Offer
+              {loading ? "Submitting..." : "Get My Cash Offer"}
             </button>
+            {error && (
+              <p className="text-red-600 font-semibold mt-2 text-center">{error}</p>
+            )}
           </form>
         )}
       </div>
