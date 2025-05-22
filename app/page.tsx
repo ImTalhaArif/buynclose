@@ -136,6 +136,9 @@ export default function LandingPage() {
       <div className="mt-10 text-center text-sm text-gray-300">
         By submitting this form, you agree to our Terms of Service and Privacy Policy.
       </div>
+      <div className="mt-10 text-center text-sm text-gray-300">
+        Need more assistance? Call us at: 877-801-0140
+      </div>
     </div>
   );
 }
