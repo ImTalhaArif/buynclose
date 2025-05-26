@@ -7,6 +7,9 @@ type Submission = {
   name: string;
   email: string;
   phone: string;
+  city: string;
+  state: string;
+  zipcode: string;
 };
 
 export default function LeadsPage() {
@@ -17,9 +20,9 @@ export default function LeadsPage() {
     fetch('https://oowa6i2ukx7nimeaqb6yjsir7y0spnmj.lambda-url.eu-north-1.on.aws/', {
       method: 'GET',
     })
-      .then((res) => res.json()) // ✅ Convert response to JSON 
+      .then((res) => res.json())
       .then((json) => {
-        const typedData = json as { Items: Submission[] }; // ✅ Explicitly cast it
+        const typedData = json as { Items: Submission[] };
         if (typedData.Items) {
           setData(typedData.Items);
         }
@@ -45,6 +48,9 @@ export default function LeadsPage() {
                 <th className="border border-gray-300 px-4 py-2">Email</th>
                 <th className="border border-gray-300 px-4 py-2">Phone</th>
                 <th className="border border-gray-300 px-4 py-2">Address</th>
+                <th className="border border-gray-300 px-4 py-2">City</th>
+                <th className="border border-gray-300 px-4 py-2">State</th>
+                <th className="border border-gray-300 px-4 py-2">Zipcode</th>
               </tr>
             </thead>
             <tbody>
@@ -54,6 +60,9 @@ export default function LeadsPage() {
                   <td className="border border-gray-300 px-4 py-2">{lead.email}</td>
                   <td className="border border-gray-300 px-4 py-2">{lead.phone}</td>
                   <td className="border border-gray-300 px-4 py-2">{lead.address}</td>
+                  <td className="border border-gray-300 px-4 py-2">{lead.city}</td>
+                  <td className="border border-gray-300 px-4 py-2">{lead.state}</td>
+                  <td className="border border-gray-300 px-4 py-2">{lead.zipcode}</td>
                 </tr>
               ))}
             </tbody>
