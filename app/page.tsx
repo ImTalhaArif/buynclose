@@ -8,6 +8,9 @@ export default function LandingPage() {
     email: "",
     phone: "",
     address: "",
+    city: "",
+    state: "",
+    zipcode: "",
   });
 
   const [submitted, setSubmitted] = useState(false);
@@ -114,9 +117,45 @@ export default function LandingPage() {
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-2 border rounded-md"
-                placeholder="123 Main St, City, State"
+                placeholder="123 Main St"
               />
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block mb-2 font-semibold">City</label>
+                <input
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 border rounded-md"
+                  placeholder="New York"
+                />
+              </div>
+              <div>
+                <label className="block mb-2 font-semibold">State</label>
+                <input
+                  name="state"
+                  value={formData.state}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 border rounded-md"
+                  placeholder="NY"
+                />
+              </div>
+              <div>
+                <label className="block mb-2 font-semibold">Zip Code</label>
+                <input
+                  name="zipcode"
+                  value={formData.zipcode}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 border rounded-md"
+                  placeholder="10001"
+                />
+              </div>
+            </div>
+
             <button
               type="submit"
               disabled={loading}
@@ -136,7 +175,7 @@ export default function LandingPage() {
       <div className="mt-10 text-center text-sm text-gray-300">
         By submitting this form, you agree to our Terms of Service and Privacy Policy.
       </div>
-      <div className="mt-10 text-center text-sm text-gray-300">
+      <div className="mt-4 text-center text-sm text-gray-300">
         Need more assistance? Call us at: 877-801-0140
       </div>
     </div>
