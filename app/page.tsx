@@ -65,6 +65,9 @@ export default function LandingPage() {
         <p className="text-lg md:text-xl">
           Get a fair cash offer within 24 hours. No commissions. No fees. No repairs needed.
         </p>
+         <div className="mt-4 text-center text-sm text-gray-300">
+        Need more assistance? Call us at: 877-801-0140
+      </div>
       </div>
 
       <div className="bg-white text-black p-8 rounded-xl shadow-2xl w-full max-w-xl">
